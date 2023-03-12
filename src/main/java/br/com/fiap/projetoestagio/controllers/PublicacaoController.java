@@ -16,7 +16,7 @@ public class PublicacaoController {
     @ResponseBody
     public Publicacao show() {
 
-        Publicacao publicacao = new Publicacao(new String("Ola"), LocalDate.now(), "Programando em java");
+        Publicacao publicacao = new Publicacao(new String("Essa sera minnha primeira publicacao na plataforma, espero contrubuir muito com a comunidade dev"), LocalDate.now(), "Programando em java");
 
         return publicacao;
     }
