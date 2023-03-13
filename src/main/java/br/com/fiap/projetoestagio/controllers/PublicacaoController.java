@@ -12,7 +12,7 @@ import br.com.fiap.projetoestagio.models.Publicacao;
 @RestController
 public class PublicacaoController {
 
-    @GetMapping("/api/publicacao")
+    @GetMapping("/localhost/publicacao")
     @ResponseBody
     public Publicacao show() {
 

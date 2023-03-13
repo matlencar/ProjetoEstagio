@@ -9,11 +9,11 @@ import br.com.fiap.projetoestagio.models.Usuario;
 @RestController
 public class UsuarioController {
     
-    @GetMapping("/api/usuario")
+    @GetMapping("/localhost/usuario")
     @ResponseBody
     public Usuario showUsuario() {
 
-        Usuario user = new Usuario("Matheus", 28, "Ola me chamo matheus e quero ser um desenvolvedor frontend", "Masculino",185784212 , 848578457, null);
+        Usuario user = new Usuario("Matheus", 28, "Ola me chamo matheus e quero ser um desenvolvedor frontend", "Masculino","185784212" , "848578457", null);
 
         return user;
     }

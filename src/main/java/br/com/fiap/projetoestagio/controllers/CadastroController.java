@@ -16,7 +16,7 @@ public class CadastroController {
     @ResponseBody
     public Cadastro realizandoCadastro() {
 
-        Cadastro cadastro = new Cadastro("matheus@email.com", "matheusFiap20", "Matheus", new GregorianCalendar(1994, Calendar.AUGUST, 28), 111111111);
+        Cadastro cadastro = new Cadastro("matheus@email.com", "matheusFiap20", "Matheus", new GregorianCalendar(1994, Calendar.AUGUST, 28), "s333222111");
 
         return cadastro;
     }

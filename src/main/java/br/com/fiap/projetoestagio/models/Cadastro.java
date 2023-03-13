@@ -9,9 +9,9 @@ public class Cadastro {
     private String senha;
     private String nome;
     private GregorianCalendar dataNascimento;
-    private int cpf;
+    private String cpf;
 
-    public Cadastro(String email, String senha, String nome, GregorianCalendar dataNascimento, int cpf) {
+    public Cadastro(String email, String senha, String nome, GregorianCalendar dataNascimento, String cpf) {
         this.email = email;
         this.senha = senha;
         this.nome = nome;
@@ -51,11 +51,11 @@ public class Cadastro {
         this.dataNascimento = dataNascimento;
     }
 
-    public int getCpf() {
+    public String getCpf() {
         return cpf;
     }
 
-    public void setCpf(int cpf) {
+    public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 

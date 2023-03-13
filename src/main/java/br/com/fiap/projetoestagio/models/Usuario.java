@@ -8,11 +8,11 @@ public class Usuario {
     private int idade;
     private String descricao;
     private String genero;
-    private int cpf;
-    private int rg;
+    private String cpf;
+    private String rg;
     private long[] foto;
 
-    public Usuario(String nome, int idade, String descricao, String genero, int cpf, int rg, long[] foto) {
+    public Usuario(String nome, int idade, String descricao, String genero, String cpf, String rg, long[] foto) {
         this.nome = nome;
         this.idade = idade;
         this.descricao = descricao;
@@ -54,19 +54,19 @@ public class Usuario {
         this.genero = genero;
     }
 
-    public int getCpf() {
+    public String getCpf() {
         return cpf;
     }
 
-    public void setCpf(int cpf) {
+    public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 
-    public int getRg() {
+    public String getRg() {
         return rg;
     }
 
-    public void setRg(int rg) {
+    public void setRg(String rg) {
         this.rg = rg;
     }
 
