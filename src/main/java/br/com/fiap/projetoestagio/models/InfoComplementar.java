@@ -2,6 +2,7 @@ package br.com.fiap.projetoestagio.models;
 
 public class InfoComplementar {
 
+    private Long id;
     private String linguagem;
     private int nivelLinguagem;
     private String idioma;
@@ -44,6 +45,14 @@ public class InfoComplementar {
 
     public void setNivelIdioma(int nivelIdioma) {
         this.nivelIdioma = nivelIdioma;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
 }

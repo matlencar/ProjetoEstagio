@@ -2,6 +2,7 @@ package br.com.fiap.projetoestagio.models;
 
 public class Login {
 
+    private Long id;
     private String usuario;
     private String senha;
 
@@ -24,6 +25,14 @@ public class Login {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
 }

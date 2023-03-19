@@ -5,6 +5,7 @@ import java.util.GregorianCalendar;
 
 public class Cadastro {
 
+    private Long id;
     private String email;
     private String senha;
     private String nome;
@@ -65,5 +66,12 @@ public class Cadastro {
                 + ", cpf=" + cpf + "]";
     }
 
-    
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
 }

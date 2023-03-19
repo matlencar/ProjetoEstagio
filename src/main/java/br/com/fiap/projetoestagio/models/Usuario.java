@@ -1,9 +1,7 @@
 package br.com.fiap.projetoestagio.models;
-
-
-
 public class Usuario {
 
+    private Long id;
     private String nome;
     private int idade;
     private String descricao;
@@ -77,7 +75,18 @@ public class Usuario {
     public void setFoto(long[] foto) {
         this.foto = foto;
     }
-
+    
+    public Long getId() {
+        return id;
+    }
+    
+    public void setId(Long id) {
+        this.id = id;
+    }
+    public String getGenero() {
+        return genero;
+    }
+    
     @Override
     public String toString() {
         return "Usuario [nome=" + nome + ", idade=" + idade + ", descricao=" + descricao + ", Genero=" + genero
