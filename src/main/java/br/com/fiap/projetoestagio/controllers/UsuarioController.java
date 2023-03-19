@@ -36,6 +36,7 @@ public class UsuarioController {
     public ResponseEntity<Usuario> create(@RequestBody Usuario usuario) {
         log.info("usuario cadastrados" + usuarios);
         usuarios.add(usuario);
+        usuario.setId(null);
         return ResponseEntity.status(HttpStatus.CREATED).body(usuario);
     }
 

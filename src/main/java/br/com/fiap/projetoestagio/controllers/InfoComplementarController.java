@@ -35,6 +35,7 @@ public class InfoComplementarController {
     public ResponseEntity<InfoComplementar> create(@RequestBody InfoComplementar informacoes) {
         log.info("informacoes complementares cadastradas com sucesso" + informacoes);
         info.add(informacoes);
+        informacoes.setId(null);
         return ResponseEntity.status(HttpStatus.CREATED).body(informacoes);
     }
 

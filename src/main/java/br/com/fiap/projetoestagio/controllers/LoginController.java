@@ -37,6 +37,7 @@ public class LoginController {
         log.info("login efetuado" + login);
         login.setUsuario("10288ASw");
         login.setSenha("matheus@email.com");
+        login.setId(null);
         users.add(login);
         return ResponseEntity.status(HttpStatus.CREATED).body(login);
     }
