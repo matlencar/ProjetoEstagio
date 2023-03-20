@@ -26,7 +26,7 @@ public class InfoComplementarController {
     @ResponseBody
     public InfoComplementar showPerfilUser() {
         
-        InfoComplementar complemento = new InfoComplementar((long) '1', "Java", 2, "Ingles", 1);
+        InfoComplementar complemento = new InfoComplementar((long)1, "Java", 2, "Ingles", 1);
 
         return complemento;
     }
@@ -35,7 +35,7 @@ public class InfoComplementarController {
     public ResponseEntity<InfoComplementar> create(@RequestBody InfoComplementar informacoes) {
         log.info("informacoes complementares cadastradas com sucesso" + informacoes);
         info.add(informacoes);
-        informacoes.setId((long) '1');
+        informacoes.setId((long)1);
         return ResponseEntity.status(HttpStatus.CREATED).body(informacoes);
     }
 

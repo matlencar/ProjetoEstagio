@@ -29,7 +29,7 @@ public class PublicacaoController {
     @ResponseBody
     public Publicacao show() {
 
-        Publicacao publicacao = new Publicacao((long) '1', new String("Essa sera minnha primeira publicacao na plataforma, espero contrubuir muito com a comunidade dev"), LocalDate.now(), "Programando em java");
+        Publicacao publicacao = new Publicacao((long)1, new String("Essa sera minnha primeira publicacao na plataforma, espero contrubuir muito com a comunidade dev"), LocalDate.now(), "Programando em java");
 
         return publicacao;
     }
@@ -37,7 +37,7 @@ public class PublicacaoController {
     @PostMapping("/localhost/publicacao")
     public ResponseEntity<Publicacao> create(@RequestBody Publicacao publicacao){
       log.info("cadastrando a publicacao" + publicacao);
-      publicacao.setId((long) '1');
+      publicacao.setId((long) 1);
         publi.add(publicacao);
         return ResponseEntity.status(HttpStatus.CREATED).body(publicacao);
     }

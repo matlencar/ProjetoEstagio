@@ -27,7 +27,7 @@ public class UsuarioController {
     @ResponseBody
     public Usuario showUsuario() {
 
-        Usuario user = new Usuario((long) '1', "Matheus", 28, "Ola me chamo matheus e quero ser um desenvolvedor frontend", "Masculino","185784212" , "848578457", null);
+        Usuario user = new Usuario((long)1, "Matheus", 28, "Ola me chamo matheus e quero ser um desenvolvedor frontend", "Masculino","185784212" , "848578457", null);
 
         return user;
     }
@@ -36,7 +36,7 @@ public class UsuarioController {
     public ResponseEntity<Usuario> create(@RequestBody Usuario usuario) {
         log.info("usuario cadastrados" + usuarios);
         usuarios.add(usuario);
-        usuario.setId((long) '1');
+        usuario.setId((long)1);
         return ResponseEntity.status(HttpStatus.CREATED).body(usuario);
     }
 
