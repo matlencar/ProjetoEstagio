@@ -27,7 +27,7 @@ public class LoginController {
     @ResponseBody
     public Login showLogin() {
 
-        Login login = new Login("matheus@email.com", "10288ASw");
+        Login login = new Login((long) '1', "matheus@email.com", "10288ASw");
 
         return login;
     }
@@ -37,7 +37,7 @@ public class LoginController {
         log.info("login efetuado" + login);
         login.setUsuario("10288ASw");
         login.setSenha("matheus@email.com");
-        login.setId(null);
+        login.setId((long) '1');
         users.add(login);
         return ResponseEntity.status(HttpStatus.CREATED).body(login);
     }

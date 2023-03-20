@@ -12,7 +12,7 @@ public class Cadastro {
     private GregorianCalendar dataNascimento;
     private String cpf;
 
-    public Cadastro(String email, String senha, String nome, GregorianCalendar dataNascimento, String cpf) {
+    public Cadastro(Long id, String email, String senha, String nome, GregorianCalendar dataNascimento, String cpf) {
         this.email = email;
         this.senha = senha;
         this.nome = nome;

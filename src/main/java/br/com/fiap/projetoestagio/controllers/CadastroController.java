@@ -26,11 +26,11 @@ public class CadastroController {
     List<Cadastro> cadastro = new ArrayList<>();
     Logger log = LoggerFactory.getLogger(InfoComplementarController.class);
     
-    @GetMapping("/api/cadastro")
+    @GetMapping("/localhost/cadastro")
     @ResponseBody
     public Cadastro realizandoCadastro() {
 
-        Cadastro cadastro = new Cadastro("matheus@email.com", "matheusFiap20", "Matheus", new GregorianCalendar(1994, Calendar.AUGUST, 28), "s333222111");
+        Cadastro cadastro = new Cadastro((long) '1', "matheus@email.com", "matheusFiap20", "Matheus", new GregorianCalendar(1994, Calendar.AUGUST, 28), "s333222111");
 
         return cadastro;
     }
@@ -39,7 +39,7 @@ public class CadastroController {
     public ResponseEntity<Cadastro> create(@RequestBody Cadastro cadastros) {
         log.info("informacoes complementares cadastradas com sucesso" + cadastros);
         cadastro.add(cadastros);
-        cadastros.setId(null);
+        cadastros.setId((long) '1');
         return ResponseEntity.status(HttpStatus.CREATED).body(cadastros);
     }
 

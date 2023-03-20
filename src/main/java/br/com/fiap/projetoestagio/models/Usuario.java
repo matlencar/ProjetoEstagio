@@ -8,9 +8,9 @@ public class Usuario {
     private String genero;
     private String cpf;
     private String rg;
-    private long[] foto;
+    private String[] foto;
 
-    public Usuario(String nome, int idade, String descricao, String genero, String cpf, String rg, long[] foto) {
+    public Usuario(Long id, String nome, int idade, String descricao, String genero, String cpf, String rg, String[] foto) {
         this.nome = nome;
         this.idade = idade;
         this.descricao = descricao;
@@ -68,11 +68,11 @@ public class Usuario {
         this.rg = rg;
     }
 
-    public long[] getFoto() {
+    public String[] getFoto() {
         return foto;
     }
 
-    public void setFoto(long[] foto) {
+    public void setFoto(String[] foto) {
         this.foto = foto;
     }
     

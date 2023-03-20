@@ -9,7 +9,8 @@ public class Publicacao {
     private String titulo;
     
     
-    public Publicacao(String texto, LocalDate data, String titulo) {
+    public Publicacao(Long id, String texto, LocalDate data, String titulo) {
+        this.id = id;
         this.texto = texto;
         this.data = data;
         this.titulo = titulo;

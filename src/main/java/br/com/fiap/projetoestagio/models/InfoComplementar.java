@@ -8,7 +8,7 @@ public class InfoComplementar {
     private String idioma;
     private int nivelIdioma;
 
-    public InfoComplementar(String linguagem, int nivelLinguagem, String idioma, int nivelIdioma) {
+    public InfoComplementar(Long id, String linguagem, int nivelLinguagem, String idioma, int nivelIdioma) {
         this.linguagem = linguagem;
         this.nivelLinguagem = nivelLinguagem;
         this.idioma = idioma;
