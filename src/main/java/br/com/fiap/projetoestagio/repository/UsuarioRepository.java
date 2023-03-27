@@ -2,13 +2,9 @@ package br.com.fiap.projetoestagio.repository;
 
 import br.com.fiap.projetoestagio.models.Usuario;
 
-public class UsuarioRepository extends JpaRepositoryUsuario<Usuario, Long>{
+import org.springframework.data.jpa.repository.JpaRepository;
 
-    public void save(Usuario usuario) {
-    }
 
-	public Object findById(Long id) {
-		return id;
-	}
+public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
     
 }

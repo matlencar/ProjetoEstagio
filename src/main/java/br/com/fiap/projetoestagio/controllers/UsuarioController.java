@@ -53,7 +53,7 @@ public class UsuarioController {
         log.info("buscando publicacoes com id: " + id);
         var publicacoesPostadas = repository.findById(id);
 
-        if(((List<Usuario>) publicacoesPostadas).isEmpty())
+        if(publicacoesPostadas.isEmpty())
             return ResponseEntity.notFound().build();
 
         return ResponseEntity.ok().build();
@@ -64,10 +64,10 @@ public class UsuarioController {
         log.info("deletando usuarios com o id: " + id);
         var usuariosCadastrados = repository.findById(id);
 
-        if(((List<Usuario>) usuariosCadastrados).isEmpty())
+        if(usuariosCadastrados.isEmpty())
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
-        usuarios.remove(usuariosCadastrados);
+        usuarios.remove(usuariosCadastrados.get());
 
         return ResponseEntity.noContent().build();
     }
@@ -77,7 +77,7 @@ public class UsuarioController {
         log.info("atualizando o id do login: " + id);
         var usuariosCadastrados = repository.findById(id);
 
-        if(((List<Usuario>) usuariosCadastrados).isEmpty())
+        if( usuariosCadastrados.isEmpty())
         return ResponseEntity.notFound().build();
 
         usuario.setId(id);
