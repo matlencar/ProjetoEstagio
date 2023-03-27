@@ -1,6 +1,15 @@
 package br.com.fiap.projetoestagio.models;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class Usuario {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
     private int idade;
@@ -9,6 +18,8 @@ public class Usuario {
     private String cpf;
     private String rg;
     private String[] foto;
+
+    protected Usuario() {}
 
     public Usuario(Long id, String nome, int idade, String descricao, String genero, String cpf, String rg, String[] foto) {
         this.nome = nome;

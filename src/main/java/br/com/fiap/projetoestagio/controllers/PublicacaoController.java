@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,19 +14,25 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.fiap.projetoestagio.models.Publicacao;
+import br.com.fiap.projetoestagio.repository.PublicacaoRepository;
 
 @RestController
+@RequestMapping("/api/publicacao")
 public class PublicacaoController {
 
     List<Publicacao> publi = new ArrayList<>();
 
+    @Autowired
+    PublicacaoRepository repository; //Injeção de dependencia
+
     Logger log = LoggerFactory.getLogger(PublicacaoController.class);
 
-    @GetMapping("/localhost/publicacao")
+    @GetMapping("/api/publicacao")
     @ResponseBody
     public Publicacao show() {
 
@@ -34,47 +41,52 @@ public class PublicacaoController {
         return publicacao;
     }
 
-    @PostMapping("/localhost/publicacao")
+    @PostMapping("/api/publicacao")
     public ResponseEntity<Publicacao> create(@RequestBody Publicacao publicacao){
       log.info("cadastrando a publicacao" + publicacao);
-      publicacao.setId((long) 1);
-        publi.add(publicacao);
+      
+      repository.save(publicacao);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(publicacao);
     }
 
-    @GetMapping("/localhost/publicacao{id}")
+    @GetMapping("{id}")
     public ResponseEntity<Publicacao> show(@PathVariable Long id){
         log.info("buscando publicacoes com id: " + id);
-        var publicacoesPostadas = publi.stream().filter(d -> d.getId().equals(id)).findFirst();
+        var publicacoesPostadas = repository.findById(id);
 
         if(publicacoesPostadas.isEmpty())
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return ResponseEntity.notFound().build();
 
         return ResponseEntity.ok(publicacoesPostadas.get());
     }
 
-    @DeleteMapping("/localhost/publicacao{id}")
+    @DeleteMapping("{id}")
     public ResponseEntity<Publicacao> destroy(@PathVariable Long id){
         log.info("buscando publicacoes com id: " + id);
-        var publicacoesPostadas = publi.stream().filter(d -> d.getId().equals(id)).findFirst();
+        var publicacoesPostadas = repository.findById(id);
 
         if(publicacoesPostadas.isEmpty())
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return ResponseEntity.notFound().build();
 
-        publi.remove(publicacoesPostadas.get());
+        // publi.remove(publicacoesPostadas.get());
+        repository.delete(publicacoesPostadas.get());
 
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/localhost/publicacao{id}")
+    @PutMapping("{id}")
     public ResponseEntity<Publicacao> update(@PathVariable Long id, @RequestBody Publicacao publicacao){
         log.info("buscando publicacoes com id: " + id);
-        var publicacoesPostadas = publi.stream().filter(d -> d.getId().equals(id)).findFirst();
+        var publicacoesPostadas = repository.findById(id);
 
         if(publicacoesPostadas.isEmpty())
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return ResponseEntity.notFound().build();
 
-        return ResponseEntity.ok(publicacoesPostadas.get());
+        publicacao.setId(id);
+        repository.save(publicacao);
+
+        return ResponseEntity.ok(publicacao);
     }
 
 }

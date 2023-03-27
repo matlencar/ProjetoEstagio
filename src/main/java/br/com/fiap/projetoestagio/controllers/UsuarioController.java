@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,18 +13,24 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.fiap.projetoestagio.models.Usuario;
+import br.com.fiap.projetoestagio.repository.UsuarioRepository;
 
 @RestController
+@RequestMapping("/api/usuarios")
 public class UsuarioController {
 
     List<Usuario> usuarios = new ArrayList<>();
     Logger log = LoggerFactory.getLogger(UsuarioController.class);
+
+    @Autowired
+    UsuarioRepository repository; //Injeção de dependencia
     
-    @GetMapping("/localhost/usuario")
+    @GetMapping()
     @ResponseBody
     public Usuario showUsuario() {
 
@@ -32,45 +39,50 @@ public class UsuarioController {
         return user;
     }
 
-    @PostMapping("/localhost/usuario")
+    @PostMapping()
     public ResponseEntity<Usuario> create(@RequestBody Usuario usuario) {
         log.info("usuario cadastrados" + usuarios);
-        usuarios.add(usuario);
-        usuario.setId((long)1);
+       
+        repository.save(usuario);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(usuario);
     }
-
-    @GetMapping("/localhost/usuario{id}")
+    
+    @GetMapping("{id}")
     public ResponseEntity<Usuario> show(@PathVariable Long id){
-        log.info("buscando usuarios cadastrados com o id: " + id);
-        var usuariosCadastrados = usuarios.stream().filter(d -> d.getId().equals(id)).findFirst();
-        if(usuariosCadastrados.isEmpty())
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        log.info("buscando publicacoes com id: " + id);
+        var publicacoesPostadas = repository.findById(id);
 
-        return ResponseEntity.ok(usuariosCadastrados.get());
+        if(((List<Usuario>) publicacoesPostadas).isEmpty())
+            return ResponseEntity.notFound().build();
+
+        return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/localhost/usuario{id}")
+    @DeleteMapping("{id}")
     public ResponseEntity<Usuario> destroy(@PathVariable Long id){
         log.info("deletando usuarios com o id: " + id);
-        var usuariosCadastrados = usuarios.stream().filter(d -> d.getId().equals(id)).findFirst();
+        var usuariosCadastrados = repository.findById(id);
 
-        if(usuariosCadastrados.isEmpty())
+        if(((List<Usuario>) usuariosCadastrados).isEmpty())
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
-        usuarios.remove(usuariosCadastrados.get());
+        usuarios.remove(usuariosCadastrados);
 
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/localhost/usuario{id}")
+    @PutMapping("{id}")
     public ResponseEntity<Usuario> update(@PathVariable Long id, @RequestBody Usuario usuario){
         log.info("atualizando o id do login: " + id);
-        var usuariosCadastrados = usuarios.stream().filter(d -> d.getId().equals(id)).findFirst();
+        var usuariosCadastrados = repository.findById(id);
 
-        if(usuariosCadastrados.isEmpty())
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        if(((List<Usuario>) usuariosCadastrados).isEmpty())
+        return ResponseEntity.notFound().build();
 
-        return ResponseEntity.ok(usuariosCadastrados.get());
+        usuario.setId(id);
+        repository.save(usuario);
+
+        return ResponseEntity.ok(usuario);
     }
 }

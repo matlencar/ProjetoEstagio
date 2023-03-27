@@ -2,12 +2,22 @@ package br.com.fiap.projetoestagio.models;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class Publicacao {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String texto;
     private LocalDate data;
     private String titulo;
     
+    protected Publicacao() {}
     
     public Publicacao(Long id, String texto, LocalDate data, String titulo) {
         this.id = id;

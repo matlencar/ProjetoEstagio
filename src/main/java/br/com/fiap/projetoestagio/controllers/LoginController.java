@@ -32,7 +32,7 @@ public class LoginController {
         return login;
     }
 
-    @PostMapping("/localhost/login")
+    @PostMapping("/api/login")
     public ResponseEntity<Login> create(@RequestBody Login login) {
         log.info("login efetuado" + login);
         login.setUsuario("10288ASw");
@@ -42,7 +42,7 @@ public class LoginController {
         return ResponseEntity.status(HttpStatus.CREATED).body(login);
     }
 
-    @GetMapping("/localhost/login{id}")
+    @GetMapping("/api/login{id}")
     public ResponseEntity<Login> show(@PathVariable Long id){
         log.info("buscando usuarios com o id: " + id);
         var usuariosLogados = users.stream().filter(d -> d.getId().equals(id)).findFirst();
@@ -52,7 +52,7 @@ public class LoginController {
         return ResponseEntity.ok(usuariosLogados.get());
     }
 
-    @DeleteMapping("/localhost/login{id}")
+    @DeleteMapping("/api/login{id}")
     public ResponseEntity<Login> destroy(@PathVariable Long id){
         log.info("deletando usuarios com o id: " + id);
         var usuariosLogados = users.stream().filter(d -> d.getId().equals(id)).findFirst();
@@ -65,7 +65,7 @@ public class LoginController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @PutMapping("/localhost/login{id}")
+    @PutMapping("/api/login{id}")
     public ResponseEntity<Login> update(@PathVariable Long id, @RequestBody Login login){
         log.info("atualizando o id do login: " + id);
         var usuariosLogados = users.stream().filter(d -> d.getId().equals(id)).findFirst();

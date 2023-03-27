@@ -26,7 +26,7 @@ public class CadastroController {
     List<Cadastro> cadastro = new ArrayList<>();
     Logger log = LoggerFactory.getLogger(InfoComplementarController.class);
     
-    @GetMapping("/localhost/cadastro")
+    @GetMapping("/api/cadastro")
     @ResponseBody
     public Cadastro realizandoCadastro() {
         Cadastro cadastro = new Cadastro((long)1, "matheus@email.com", "matheusFiap20", "Matheus", new GregorianCalendar(1994, Calendar.AUGUST, 28), "s333222111");
@@ -34,7 +34,7 @@ public class CadastroController {
         return cadastro;
     }
 
-    @PostMapping("/localhost/cadastro")
+    @PostMapping("/api/cadastro")
     public ResponseEntity<Cadastro> create(@RequestBody Cadastro cadastros) {
         log.info("informacoes complementares cadastradas com sucesso" + cadastros);
         cadastro.add(cadastros);
@@ -42,7 +42,7 @@ public class CadastroController {
         return ResponseEntity.status(HttpStatus.CREATED).body(cadastros);
     }
 
-    @GetMapping("/localhost/cadastro{id}")
+    @GetMapping("/api/cadastro{id}")
     public ResponseEntity<Cadastro> show(@PathVariable Long id){
         log.info("buscando as informacoes do cadastro com o id: " + id);
         var cadastroUsuario = cadastro.stream().filter(d -> d.getId().equals(id)).findFirst();
@@ -52,7 +52,7 @@ public class CadastroController {
         return ResponseEntity.ok(cadastroUsuario.get());
     }
 
-    @DeleteMapping("/localhost/cadastro{id}")
+    @DeleteMapping("/api/cadastro{id}")
     public ResponseEntity<Cadastro> deleteId(@PathVariable Long id){
         log.info("deletando informacoes complementares com o id: " + id);
         var cadastroUsuario = cadastro.stream().filter(d -> d.getId().equals(id)).findFirst();
@@ -65,7 +65,7 @@ public class CadastroController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @PutMapping("/localhost/cadastro{id}")
+    @PutMapping("/api/cadastro{id}")
     public ResponseEntity<Cadastro> update(@PathVariable Long id, @RequestBody Cadastro cadastros){
         log.info("atualizando o id do cadastro: " + id);
         var cadastroUsuario = cadastro.stream().filter(d -> d.getId().equals(id)).findFirst();

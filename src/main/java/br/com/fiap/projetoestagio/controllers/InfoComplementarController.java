@@ -22,7 +22,7 @@ public class InfoComplementarController {
     List<InfoComplementar> info = new ArrayList<>();
     Logger log = LoggerFactory.getLogger(InfoComplementarController.class);
     
-    @GetMapping("/localhost/complementares")
+    @GetMapping("/api/complementares")
     @ResponseBody
     public InfoComplementar showPerfilUser() {
         
@@ -31,7 +31,7 @@ public class InfoComplementarController {
         return complemento;
     }
 
-    @PostMapping("/localhost/complementaresv")
+    @PostMapping("/api/complementaresv")
     public ResponseEntity<InfoComplementar> create(@RequestBody InfoComplementar informacoes) {
         log.info("informacoes complementares cadastradas com sucesso" + informacoes);
         info.add(informacoes);
@@ -39,7 +39,7 @@ public class InfoComplementarController {
         return ResponseEntity.status(HttpStatus.CREATED).body(informacoes);
     }
 
-    @GetMapping("/localhost/complementares{id}")
+    @GetMapping("/api/complementares{id}")
     public ResponseEntity<InfoComplementar> show(@PathVariable Long id){
         log.info("buscando as informacoes complementares com o id: " + id);
         var infoComplementares = info.stream().filter(d -> d.getId().equals(id)).findFirst();
@@ -49,7 +49,7 @@ public class InfoComplementarController {
         return ResponseEntity.ok(infoComplementares.get());
     }
 
-    @DeleteMapping("/localhost/complementares{id}")
+    @DeleteMapping("/api/complementares{id}")
     public ResponseEntity<InfoComplementar> deleteId(@PathVariable Long id){
         log.info("deletando informacoes complementares com o id: " + id);
         var infoComplementares = info.stream().filter(d -> d.getId().equals(id)).findFirst();
@@ -62,7 +62,7 @@ public class InfoComplementarController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @PutMapping("/localhost/complementares{id}")
+    @PutMapping("/api/complementares{id}")
     public ResponseEntity<InfoComplementar> update(@PathVariable Long id, @RequestBody InfoComplementar informacoes){
         log.info("atualizando o id do das informacoes complementares: " + id);
         var infoComplementares = info.stream().filter(d -> d.getId().equals(id)).findFirst();
