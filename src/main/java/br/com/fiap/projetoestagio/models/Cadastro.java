@@ -3,14 +3,23 @@ package br.com.fiap.projetoestagio.models;
 
 import java.util.GregorianCalendar;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+@Entity
 public class Cadastro {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String email;
     private String senha;
     private String nome;
     private GregorianCalendar dataNascimento;
     private String cpf;
+
+    public Cadastro() {}
 
     public Cadastro(Long id, String email, String senha, String nome, GregorianCalendar dataNascimento, String cpf) {
         this.email = email;

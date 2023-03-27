@@ -1,12 +1,22 @@
 package br.com.fiap.projetoestagio.models;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class InfoComplementar {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String linguagem;
     private int nivelLinguagem;
     private String idioma;
     private int nivelIdioma;
+
+    public InfoComplementar() {}
 
     public InfoComplementar(Long id, String linguagem, int nivelLinguagem, String idioma, int nivelIdioma) {
         this.linguagem = linguagem;

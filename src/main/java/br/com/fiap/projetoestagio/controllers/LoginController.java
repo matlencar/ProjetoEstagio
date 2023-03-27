@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,16 +13,22 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.fiap.projetoestagio.models.Login;
+import br.com.fiap.projetoestagio.repository.LoginRepository;
 
+@RequestMapping("/api/login")
 @RestController
 public class LoginController {
 
     List<Login> users = new ArrayList<>();
     Logger log = LoggerFactory.getLogger(LoginController.class);
+
+    @Autowired
+    LoginRepository repository; //Injeção de dependencia
 
     @GetMapping("/localhost/login")
     @ResponseBody
@@ -32,46 +39,49 @@ public class LoginController {
         return login;
     }
 
-    @PostMapping("/api/login")
+    @PostMapping()
     public ResponseEntity<Login> create(@RequestBody Login login) {
         log.info("login efetuado" + login);
-        login.setUsuario("10288ASw");
-        login.setSenha("matheus@email.com");
-        login.setId((long) 1);
-        users.add(login);
+       
+        repository.save(login);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(login);
     }
 
-    @GetMapping("/api/login{id}")
+    @GetMapping("{id}")
     public ResponseEntity<Login> show(@PathVariable Long id){
         log.info("buscando usuarios com o id: " + id);
-        var usuariosLogados = users.stream().filter(d -> d.getId().equals(id)).findFirst();
+        var usuariosLogados = repository.findById(id);
+
         if(usuariosLogados.isEmpty())
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return ResponseEntity.notFound().build();
 
         return ResponseEntity.ok(usuariosLogados.get());
     }
 
-    @DeleteMapping("/api/login{id}")
+    @DeleteMapping("{id}")
     public ResponseEntity<Login> destroy(@PathVariable Long id){
         log.info("deletando usuarios com o id: " + id);
-        var usuariosLogados = users.stream().filter(d -> d.getId().equals(id)).findFirst();
+        var usuariosLogados = repository.findById(id);
 
         if(usuariosLogados.isEmpty())
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return ResponseEntity.notFound().build();
 
         users.remove(usuariosLogados.get());
 
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/api/login{id}")
+    @PutMapping("{id}")
     public ResponseEntity<Login> update(@PathVariable Long id, @RequestBody Login login){
         log.info("atualizando o id do login: " + id);
-        var usuariosLogados = users.stream().filter(d -> d.getId().equals(id)).findFirst();
+        var usuariosLogados = repository.findById(id);
 
         if(usuariosLogados.isEmpty())
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return ResponseEntity.notFound().build();
+
+        login.setId(id);
+        repository.save(login);
 
         return ResponseEntity.ok(usuariosLogados.get());
     }
