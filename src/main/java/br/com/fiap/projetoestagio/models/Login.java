@@ -4,7 +4,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Login {
@@ -13,10 +16,14 @@ public class Login {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Pattern(regexp = "@/Aa.")
+    @NotBlank
+    @Email(message="Por favor forneça um endereço de email valido")
+    @Pattern(regexp=".+@.+\\..+", message="Por favor forneça um endereço de email valido")
     private String usuario;
 
-    
+    @NotBlank
+    @Size(min = 6, max = 8, message = "A senha deve conter entre 6 a 8 caracteres")
+    @Pattern(regexp=".+@.+\\..+")
     private String senha;
 
     public Login() {}
