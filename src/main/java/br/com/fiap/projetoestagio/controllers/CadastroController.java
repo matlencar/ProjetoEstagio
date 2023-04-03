@@ -79,7 +79,7 @@ public class CadastroController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Cadastro> update(@PathVariable Long id, @RequestBody Cadastro cadastros){
+    public ResponseEntity<Cadastro> update(@PathVariable Long id, @RequestBody @Valid Cadastro cadastros){
         log.info("atualizando o id do cadastro: " + id);
         getCadastro(id);
 
@@ -92,6 +92,6 @@ public class CadastroController {
 
     private Cadastro getCadastro(Long id) {
         return repository.findById(id)
-        .orElseThrow(() -> new RestNotFoundException("Não a informações complementares encontradas no sistema"));
+        .orElseThrow(() -> new RestNotFoundException("Não a informações de cadastro encontradas no sistema"));
     }
 }

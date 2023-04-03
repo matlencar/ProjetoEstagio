@@ -74,7 +74,7 @@ public class InfoComplementarController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<InfoComplementar> update(@PathVariable Long id, @RequestBody InfoComplementar informacoes){
+    public ResponseEntity<InfoComplementar> update(@PathVariable Long id, @RequestBody @Valid InfoComplementar informacoes){
         log.info("atualizando o id do das informacoes complementares: " + id);
         getInformacComplementar(id);
 

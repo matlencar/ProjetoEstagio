@@ -74,7 +74,7 @@ public class LoginController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Login> update(@PathVariable Long id, @RequestBody Login login){
+    public ResponseEntity<Login> update(@PathVariable Long id, @RequestBody @Valid Login login){
         log.info("atualizando o id do login: " + id);
         getLogin(id);
 
