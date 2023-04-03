@@ -23,7 +23,6 @@ public class Login {
 
     @NotBlank
     @Size(min = 6, max = 8, message = "A senha deve conter entre 6 a 8 caracteres")
-    @Pattern(regexp=".+@.+\\..+")
     private String senha;
 
     public Login() {}

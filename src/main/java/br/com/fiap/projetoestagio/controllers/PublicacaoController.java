@@ -33,6 +33,11 @@ public class PublicacaoController {
     @Autowired
     PublicacaoRepository repository; //Injeção de dependencia
 
+    @GetMapping
+    public List<Publicacao> index() {
+        return repository.findAll();
+    }
+
     Logger log = LoggerFactory.getLogger(PublicacaoController.class);
 
     @ResponseBody

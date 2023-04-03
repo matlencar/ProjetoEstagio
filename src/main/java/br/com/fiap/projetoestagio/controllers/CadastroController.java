@@ -20,8 +20,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import br.com.fiap.projetoestagio.config.RestNotFoundException;
 import br.com.fiap.projetoestagio.models.Cadastro;
 import br.com.fiap.projetoestagio.repository.CadastroRepository;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/cadastros")
@@ -31,11 +33,15 @@ public class CadastroController {
     @Autowired
     CadastroRepository repository; //Injeção de dependencia
 
+    @GetMapping
+    public List<Cadastro> index() {
+        return repository.findAll();
+    }
+
     List<Cadastro> cadastro = new ArrayList<>();
     Logger log = LoggerFactory.getLogger(InfoComplementarController.class);
 
 
-    
     @GetMapping()
     @ResponseBody
     public Cadastro realizandoCadastro() {
@@ -45,7 +51,7 @@ public class CadastroController {
     }
 
     @PostMapping()
-    public ResponseEntity<Cadastro> create(@RequestBody Cadastro cadastros) {
+    public ResponseEntity<Cadastro> create(@RequestBody @Valid Cadastro cadastros) {
         log.info("informacoes complementares cadastradas com sucesso" + cadastros);
        
 
@@ -57,23 +63,17 @@ public class CadastroController {
     @GetMapping("{id}")
     public ResponseEntity<Cadastro> show(@PathVariable Long id){
         log.info("buscando as informacoes do cadastro com o id: " + id);
-        var cadastroUsuario = repository.findById(id);
+        var cadastroUsuario = getCadastro(id);
 
-        if(cadastroUsuario.isEmpty())
-        return ResponseEntity.notFound().build();
-
-        return ResponseEntity.ok(cadastroUsuario.get());
+        return ResponseEntity.ok(cadastroUsuario);
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<Cadastro> deleteId(@PathVariable Long id){
         log.info("deletando informacoes complementares com o id: " + id);
-        var cadastroUsuario = repository.findById(id);
+        var cadastroUsuario = getCadastro(id);
 
-        if(cadastroUsuario.isEmpty())
-        return ResponseEntity.notFound().build();
-
-        cadastro.remove(cadastroUsuario.get());
+        cadastro.remove(cadastroUsuario);
 
         return ResponseEntity.noContent().build();
     }
@@ -81,14 +81,17 @@ public class CadastroController {
     @PutMapping("{id}")
     public ResponseEntity<Cadastro> update(@PathVariable Long id, @RequestBody Cadastro cadastros){
         log.info("atualizando o id do cadastro: " + id);
-        var cadastroUsuario = repository.findById(id);
+        getCadastro(id);
 
-        if(cadastroUsuario.isEmpty())
-        return ResponseEntity.notFound().build();
 
         cadastros.setId(id);
         repository.save(cadastros);
 
-        return ResponseEntity.ok(cadastroUsuario.get());
+        return ResponseEntity.ok(cadastros);
+    }
+
+    private Cadastro getCadastro(Long id) {
+        return repository.findById(id)
+        .orElseThrow(() -> new RestNotFoundException("Não a informações complementares encontradas no sistema"));
     }
 }

@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.fiap.projetoestagio.config.RestNotFoundException;
 import br.com.fiap.projetoestagio.models.Usuario;
 import br.com.fiap.projetoestagio.repository.UsuarioRepository;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -29,6 +31,11 @@ public class UsuarioController {
 
     @Autowired
     UsuarioRepository repository; //Injeção de dependencia
+
+    @GetMapping
+    public List<Usuario> index() {
+        return repository.findAll();
+    }
     
     @GetMapping()
     @ResponseBody
@@ -40,7 +47,7 @@ public class UsuarioController {
     }
 
     @PostMapping()
-    public ResponseEntity<Usuario> create(@RequestBody Usuario usuario) {
+    public ResponseEntity<Usuario> create(@RequestBody @Valid Usuario usuario) {
         log.info("usuario cadastrados" + usuarios);
        
         repository.save(usuario);
@@ -51,23 +58,18 @@ public class UsuarioController {
     @GetMapping("{id}")
     public ResponseEntity<Usuario> show(@PathVariable Long id){
         log.info("buscando publicacoes com id: " + id);
-        var publicacoesPostadas = repository.findById(id);
+        var usuario = getUsuario(id);
 
-        if(publicacoesPostadas.isEmpty())
-            return ResponseEntity.notFound().build();
-
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(usuario);
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<Usuario> destroy(@PathVariable Long id){
         log.info("deletando usuarios com o id: " + id);
-        var usuariosCadastrados = repository.findById(id);
+        var usuario = getUsuario(id);
 
-        if(usuariosCadastrados.isEmpty())
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
-        usuarios.remove(usuariosCadastrados.get());
+        usuarios.remove(usuario);
 
         return ResponseEntity.noContent().build();
     }
@@ -75,14 +77,17 @@ public class UsuarioController {
     @PutMapping("{id}")
     public ResponseEntity<Usuario> update(@PathVariable Long id, @RequestBody Usuario usuario){
         log.info("atualizando o id do login: " + id);
-        var usuariosCadastrados = repository.findById(id);
-
-        if( usuariosCadastrados.isEmpty())
-        return ResponseEntity.notFound().build();
+       getUsuario(id);
 
         usuario.setId(id);
         repository.save(usuario);
 
         return ResponseEntity.ok(usuario);
     }
+
+    private Usuario getUsuario(Long id) {
+        return repository.findById(id)
+        .orElseThrow(() -> new RestNotFoundException("Nenhum usuario encontrada no sistema"));
+    }
+
 }
