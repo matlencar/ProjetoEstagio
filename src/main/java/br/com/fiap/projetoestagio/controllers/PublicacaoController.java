@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.fiap.projetoestagio.config.RestNotFoundException;
 import br.com.fiap.projetoestagio.models.Publicacao;
 import br.com.fiap.projetoestagio.repository.PublicacaoRepository;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/publicacao")
@@ -42,8 +45,9 @@ public class PublicacaoController {
     }
 
     @PostMapping("/api/publicacao")
-    public ResponseEntity<Publicacao> create(@RequestBody Publicacao publicacao){
-      log.info("cadastrando a publicacao" + publicacao);
+    public ResponseEntity<Publicacao> create(@RequestBody @Valid Publicacao publicacao){
+    //   if(result.hasErrors()) return ResponseEntity.badRequest().body(new RestValidationError("erro na validacao"));
+    log.info("cadastrando a publicacao" + publicacao);
       
       repository.save(publicacao);
 
@@ -53,40 +57,45 @@ public class PublicacaoController {
     @GetMapping("{id}")
     public ResponseEntity<Publicacao> show(@PathVariable Long id){
         log.info("buscando publicacoes com id: " + id);
-        var publicacoesPostadas = repository.findById(id);
+        var publicacao = getPublicacao(id);
 
-        if(publicacoesPostadas.isEmpty())
-        return ResponseEntity.notFound().build();
+        // if(publicacoesPostadas.isEmpty())
+        // return ResponseEntity.notFound().build();
 
-        return ResponseEntity.ok(publicacoesPostadas.get());
+        return ResponseEntity.ok(publicacao);
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<Publicacao> destroy(@PathVariable Long id){
         log.info("buscando publicacoes com id: " + id);
-        var publicacoesPostadas = repository.findById(id);
+        var publicacao = getPublicacao(id);
 
-        if(publicacoesPostadas.isEmpty())
-        return ResponseEntity.notFound().build();
+        // if(publicacoesPostadas.isEmpty())
+        // return ResponseEntity.notFound().build();
 
-        // publi.remove(publicacoesPostadas.get());
-        repository.delete(publicacoesPostadas.get());
+        
+        repository.delete(publicacao);
 
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Publicacao> update(@PathVariable Long id, @RequestBody Publicacao publicacao){
+    public ResponseEntity<Publicacao> update(@PathVariable Long id, @RequestBody @Valid Publicacao publicacao){
         log.info("buscando publicacoes com id: " + id);
-        var publicacoesPostadas = repository.findById(id);
-
-        if(publicacoesPostadas.isEmpty())
-        return ResponseEntity.notFound().build();
+        // var publicacoesPostadas = repository.findById(id);
+        getPublicacao(id);
+        // if(publicacoesPostadas.isEmpty())
+        // return ResponseEntity.notFound().build();
 
         publicacao.setId(id);
         repository.save(publicacao);
 
         return ResponseEntity.ok(publicacao);
+    }
+
+    private Publicacao getPublicacao(Long id) {
+        return repository.findById(id)
+        .orElseThrow(() -> new RestNotFoundException("Nenhuma publicacao encontrada no sistema"));
     }
 
 }
