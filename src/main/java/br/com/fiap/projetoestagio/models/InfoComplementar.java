@@ -42,51 +42,6 @@ public class InfoComplementar {
 
     public InfoComplementar() {}
 
-    // public InfoComplementar(Long id, String linguagem, int nivelLinguagem, String idioma, int nivelIdioma) {
-    //     this.linguagem = linguagem;
-    //     this.nivelLinguagem = nivelLinguagem;
-    //     this.idioma = idioma;
-    //     this.nivelIdioma = nivelIdioma;
-    // }
-
-    // public String getLinguagem() {
-    //     return linguagem;
-    // }
-
-    // public void setLinguagem(String linguagem) {
-    //     this.linguagem = linguagem;
-    // }
-
-    // public int getNivelLinguagem() {
-    //     return nivelLinguagem;
-    // }
-
-    // public void setNivelLinguagem(int nivelLinguagem) {
-    //     this.nivelLinguagem = nivelLinguagem;
-    // }
-
-    // public String getIdioma() {
-    //     return idioma;
-    // }
-
-    // public void setIdioma(String idioma) {
-    //     this.idioma = idioma;
-    // }
-
-    // public int getNivelIdioma() {
-    //     return nivelIdioma;
-    // }
-
-    // public void setNivelIdioma(int nivelIdioma) {
-    //     this.nivelIdioma = nivelIdioma;
-    // }
-
-    // public Long getId() {
-    //     return id;
-    // }
-
-    // public void setId(Long id) {
-    //     this.id = id;
-    // }
+    
 
 }
