@@ -40,14 +40,14 @@ public class PublicacaoController {
 
     Logger log = LoggerFactory.getLogger(PublicacaoController.class);
 
-    @ResponseBody
-    @GetMapping("/api/publicacao")
-    public Publicacao show() {
+    // @ResponseBody
+    // @GetMapping("/api/publicacao")
+    // public Publicacao show() {
 
-        Publicacao publicacao = new Publicacao((long)1, new String("Essa sera minnha primeira publicacao na plataforma, espero contrubuir muito com a comunidade dev"), LocalDate.now(), "Programando em java");
+    //     Publicacao publicacao = new Publicacao((long)1, new String("Essa sera minnha primeira publicacao na plataforma, espero contrubuir muito com a comunidade dev"), LocalDate.now(), "Programando em java", null);
 
-        return publicacao;
-    }
+    //     return publicacao;
+    // }
 
     @PostMapping("/api/publicacao")
     public ResponseEntity<Publicacao> create(@RequestBody @Valid Publicacao publicacao){

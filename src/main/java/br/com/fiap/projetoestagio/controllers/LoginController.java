@@ -37,14 +37,14 @@ public class LoginController {
         return repository.findAll();
     }
 
-    @GetMapping("/localhost/login")
-    @ResponseBody
-    public Login showLogin() {
+    // @GetMapping("/localhost/login")
+    // @ResponseBody
+    // public Login showLogin() {
 
-        Login login = new Login((long)1, "matheus@email.com", "10288ASw");
+    //     Login login = new Login((long)1, "matheus@email.com", "10288ASw");
 
-        return login;
-    }
+    //     return login;
+    // }
 
     @PostMapping()
     public ResponseEntity<Login> create(@RequestBody @Valid Login login) {

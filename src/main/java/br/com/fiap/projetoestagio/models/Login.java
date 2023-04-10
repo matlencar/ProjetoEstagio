@@ -8,7 +8,15 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
+@EqualsAndHashCode(of = "id")
+@AllArgsConstructor
 @Entity
 public class Login {
 
@@ -27,33 +35,33 @@ public class Login {
 
     public Login() {}
 
-    public Login(Long id, String usuario, String senha) {
-        this.usuario = usuario;
-        this.senha = senha;
-    }
+    // public Login(Long id, String usuario, String senha) {
+    //     this.usuario = usuario;
+    //     this.senha = senha;
+    // }
 
-    public String getUsuario() {
-        return usuario;
-    }
+    // public String getUsuario() {
+    //     return usuario;
+    // }
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
-    }
+    // public void setUsuario(String usuario) {
+    //     this.usuario = usuario;
+    // }
 
-    public String getSenha() {
-        return senha;
-    }
+    // public String getSenha() {
+    //     return senha;
+    // }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
+    // public void setSenha(String senha) {
+    //     this.senha = senha;
+    // }
 
-    public Long getId() {
-        return id;
-    }
+    // public Long getId() {
+    //     return id;
+    // }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    // public void setId(Long id) {
+    //     this.id = id;
+    // }
 
 }

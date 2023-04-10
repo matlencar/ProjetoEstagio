@@ -37,14 +37,14 @@ public class UsuarioController {
         return repository.findAll();
     }
     
-    @GetMapping()
-    @ResponseBody
-    public Usuario showUsuario() {
+    // @GetMapping()
+    // @ResponseBody
+    // public Usuario showUsuario() {
 
-        Usuario user = new Usuario((long)1, "Matheus", 28, "Ola me chamo matheus e quero ser um desenvolvedor frontend", "Masculino","185784212" , "848578457", null);
+    //     Usuario user = new Usuario((long)1, "Matheus", 28, "Ola me chamo matheus e quero ser um desenvolvedor frontend", "Masculino","185784212" , "848578457", null);
 
-        return user;
-    }
+    //     return user;
+    // }
 
     @PostMapping()
     public ResponseEntity<Usuario> create(@RequestBody @Valid Usuario usuario) {

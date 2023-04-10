@@ -42,13 +42,13 @@ public class CadastroController {
     Logger log = LoggerFactory.getLogger(InfoComplementarController.class);
 
 
-    @GetMapping()
-    @ResponseBody
-    public Cadastro realizandoCadastro() {
-        Cadastro cadastro = new Cadastro((long)1, "matheus@email.com", "matheusFiap20", "Matheus", new GregorianCalendar(1994, Calendar.AUGUST, 28), "s333222111");
+    // @GetMapping()
+    // @ResponseBody
+    // public Cadastro realizandoCadastro() {
+    //     Cadastro cadastro = new Cadastro((long)1, "matheus@email.com", "matheusFiap20", "Matheus", new GregorianCalendar(1994, Calendar.AUGUST, 28), "s333222111");
 
-        return cadastro;
-    }
+    //     return cadastro;
+    // }
 
     @PostMapping()
     public ResponseEntity<Cadastro> create(@RequestBody @Valid Cadastro cadastros) {
