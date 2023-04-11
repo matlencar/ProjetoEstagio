@@ -34,7 +34,7 @@ public class PublicacaoController {
     PublicacaoRepository repository; //Injeção de dependencia
 
     @GetMapping
-    public List<Publicacao> index() {
+    public List<Publicacao> index(String descricao) {
         return repository.findAll();
     }
 

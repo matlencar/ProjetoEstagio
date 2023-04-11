@@ -11,13 +11,11 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Data
 @ToString
 @Setter
 @Getter
@@ -63,7 +61,10 @@ public class Usuario {
     @OneToOne
     private Cadastro cadastro;
 
-    protected Usuario() {}
+    @OneToOne
+    private Login login;
+
+    public Usuario() {}
 
     
 }

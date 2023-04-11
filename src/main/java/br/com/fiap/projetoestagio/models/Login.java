@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -33,8 +34,8 @@ public class Login {
     @Size(min = 6, max = 8, message = "A senha deve conter entre 6 a 8 caracteres")
     private String senha;
 
+    @OneToOne
+    private Usuario user;
+
     public Login() {}
-
-    
-
 }

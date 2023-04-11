@@ -4,7 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.Max;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -39,6 +39,9 @@ public class InfoComplementar {
     @NotBlank
     @Size(min = 1, max = 3, message = "O nivel da linguagem deve ser de 1 até 3")
     private int nivelIdioma;
+
+    @ManyToOne
+    private Cadastro cadastro;
 
     public InfoComplementar() {}
 
