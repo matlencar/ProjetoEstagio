@@ -43,7 +43,7 @@ public class InfoComplementar {
     @ManyToOne
     private Cadastro cadastro;
 
-    public InfoComplementar() {}
+    public InfoComplementar(String string, int i, String string2, int j) {}
 
     
 

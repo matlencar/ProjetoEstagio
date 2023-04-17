@@ -1,14 +1,15 @@
 package br.com.fiap.projetoestagio.controllers;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.fiap.projetoestagio.config.RestNotFoundException;
@@ -28,30 +29,22 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/publicacao")
 public class PublicacaoController {
 
+    Logger log = LoggerFactory.getLogger(PublicacaoController.class);
     List<Publicacao> publi = new ArrayList<>();
 
     @Autowired
     PublicacaoRepository repository; //Injeção de dependencia
 
     @GetMapping
-    public List<Publicacao> index(String descricao) {
-        return repository.findAll();
+    public Page<Publicacao> index(@RequestParam(required = false) String publicacao, @PageableDefault(size = 3) Pageable pageable) {
+        if(publicacao == null)
+        return repository.findAll(pageable);
+    
+        return repository.findByPublicacaoContaining(publicacao, pageable);
     }
-
-    Logger log = LoggerFactory.getLogger(PublicacaoController.class);
-
-    // @ResponseBody
-    // @GetMapping("/api/publicacao")
-    // public Publicacao show() {
-
-    //     Publicacao publicacao = new Publicacao((long)1, new String("Essa sera minnha primeira publicacao na plataforma, espero contrubuir muito com a comunidade dev"), LocalDate.now(), "Programando em java", null);
-
-    //     return publicacao;
-    // }
-
+    
     @PostMapping("/api/publicacao")
     public ResponseEntity<Publicacao> create(@RequestBody @Valid Publicacao publicacao){
-    //   if(result.hasErrors()) return ResponseEntity.badRequest().body(new RestValidationError("erro na validacao"));
     log.info("cadastrando a publicacao" + publicacao);
       
       repository.save(publicacao);
@@ -64,9 +57,6 @@ public class PublicacaoController {
         log.info("buscando publicacoes com id: " + id);
         var publicacao = getPublicacao(id);
 
-        // if(publicacoesPostadas.isEmpty())
-        // return ResponseEntity.notFound().build();
-
         return ResponseEntity.ok(publicacao);
     }
 
@@ -75,10 +65,6 @@ public class PublicacaoController {
         log.info("buscando publicacoes com id: " + id);
         var publicacao = getPublicacao(id);
 
-        // if(publicacoesPostadas.isEmpty())
-        // return ResponseEntity.notFound().build();
-
-        
         repository.delete(publicacao);
 
         return ResponseEntity.noContent().build();
@@ -87,11 +73,8 @@ public class PublicacaoController {
     @PutMapping("{id}")
     public ResponseEntity<Publicacao> update(@PathVariable Long id, @RequestBody @Valid Publicacao publicacao){
         log.info("buscando publicacoes com id: " + id);
-        // var publicacoesPostadas = repository.findById(id);
         getPublicacao(id);
-        // if(publicacoesPostadas.isEmpty())
-        // return ResponseEntity.notFound().build();
-
+    
         publicacao.setId(id);
         repository.save(publicacao);
 

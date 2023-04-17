@@ -40,7 +40,7 @@ public class InfoComplementarController {
     @ResponseBody
     public InfoComplementar showPerfilUser() {
         
-        InfoComplementar complemento = new InfoComplementar((long)1, "Java", 2, "Ingles", 1);
+        InfoComplementar complemento = new InfoComplementar("Java", 2, "Ingles", 1);
 
         return complemento;
     }

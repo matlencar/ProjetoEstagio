@@ -27,7 +27,7 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-//masculino feminino
+
     @NotBlank
     @Size(min = 3 , max = 60, message = "O nome deve conter de 3 até 60 caracteres")
     private String nome;
@@ -52,8 +52,8 @@ public class Usuario {
     @Max(value = 11, message = "Deve conter todos os 9 digitos do RG")
     private String rg;
 
-    @NotBlank
-    private String[] foto;
+    // @NotBlank
+    // private String[] foto;
 
     @OneToMany
     private Publicacao publicacao;
@@ -64,7 +64,7 @@ public class Usuario {
     @OneToOne
     private Login login;
 
-    public Usuario() {}
+    public Usuario(long l, String string, int i, String string2, String string3, String string4, String string5, String[] args, String string6, String string7, String string8) {}
 
     
 }

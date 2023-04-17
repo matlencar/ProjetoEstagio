@@ -61,6 +61,4 @@ public class Cadastro {
     private InfoComplementar informacao;
 
     public Cadastro() {}
-
-
 }
