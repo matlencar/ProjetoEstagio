@@ -7,7 +7,7 @@ import br.com.fiap.projetoestagio.models.Publicacao;
 
 public interface PublicacaoRepository extends JpaRepository<Publicacao, Long>{
 
-    Page<Publicacao> findByPublicacaoContaining(String publicacao, Pageable pageable);
+    Page<Publicacao> findByPublicacaoContaining(String publicacao, org.springframework.data.domain.Pageable pageable);
 
     Page<Publicacao> findAll(Pageable pageable);
     

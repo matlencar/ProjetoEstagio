@@ -1,19 +1,19 @@
 package br.com.fiap.projetoestagio.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,34 +30,36 @@ import jakarta.validation.Valid;
 public class PublicacaoController {
 
     Logger log = LoggerFactory.getLogger(PublicacaoController.class);
-    List<Publicacao> publi = new ArrayList<>();
+    // List<Publicacao> publi = new ArrayList<>();
 
     @Autowired
     PublicacaoRepository repository; //Injeção de dependencia
 
+    @Autowired
+    PagedResourcesAssembler<Object> assembler;
+
     @GetMapping
-    public Page<Publicacao> index(@RequestParam(required = false) String publicacao, @PageableDefault(size = 3) Pageable pageable) {
-        if(publicacao == null)
-        return repository.findAll(pageable);
+    public PagedModel<EntityModel<Object>> index(@RequestParam(required = false) String publicacao, @PageableDefault(size = 3) Pageable pageable) {
+        Page<Publicacao> publicacoes = (publicacao == null)?
+        repository.findAll(pageable):
+        repository.findByPublicacaoContaining(publicacao, pageable);
     
-        return repository.findByPublicacaoContaining(publicacao, pageable);
+        return assembler.toModel(publicacoes.map(Publicacao::toEntityModel));
     }
     
     @PostMapping("/api/publicacao")
-    public ResponseEntity<Publicacao> create(@RequestBody @Valid Publicacao publicacao){
+    public ResponseEntity<EntityModel<Publicacao>> create(@RequestBody @Valid Publicacao publicacao){
     log.info("cadastrando a publicacao" + publicacao);
       
       repository.save(publicacao);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(publicacao);
+        return ResponseEntity.created(publicacao.toEntityModel().getRequiredLink("self").toUri()).body(publicacao.toEntityModel());
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Publicacao> show(@PathVariable Long id){
+    public EntityModel<Publicacao> show(@PathVariable Long id){
         log.info("buscando publicacoes com id: " + id);
-        var publicacao = getPublicacao(id);
-
-        return ResponseEntity.ok(publicacao);
+        return getPublicacao(id).toEntityModel();
     }
 
     @DeleteMapping("{id}")
@@ -71,14 +73,14 @@ public class PublicacaoController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Publicacao> update(@PathVariable Long id, @RequestBody @Valid Publicacao publicacao){
+    public EntityModel<Publicacao> update(@PathVariable Long id, @RequestBody @Valid Publicacao publicacao){
         log.info("buscando publicacoes com id: " + id);
         getPublicacao(id);
     
         publicacao.setId(id);
         repository.save(publicacao);
 
-        return ResponseEntity.ok(publicacao);
+        return publicacao.toEntityModel();
     }
 
     private Publicacao getPublicacao(Long id) {

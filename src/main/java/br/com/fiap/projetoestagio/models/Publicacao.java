@@ -2,6 +2,14 @@ package br.com.fiap.projetoestagio.models;
 
 import java.time.LocalDate;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.EntityModel;
+
+import br.com.fiap.projetoestagio.controllers.PublicacaoController;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,22 +19,19 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-@Data
+
 @ToString
 @Builder
 @Setter
 @Getter
 @NoArgsConstructor
-@EqualsAndHashCode(of = "id")
 @AllArgsConstructor
 @Entity
-public class Publicacao {
+public class Publicacao extends EntityModel<Publicacao> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,5 +50,15 @@ public class Publicacao {
 
     @OneToMany
     private Usuario usuario;
+
+    public EntityModel<Publicacao> toEntityModel(){
+        return EntityModel.of(
+            this,
+            linkTo(methodOn(PublicacaoController.class).show(id)).withSelfRel(),
+            linkTo(methodOn(PublicacaoController.class).destroy(id)).withRel("delete"),
+            linkTo(methodOn(PublicacaoController.class).index(null, Pageable.unpaged())).withRel("all"),
+            linkTo(methodOn(PublicacaoController.class).show(this.getUsuario().getId())).withRel("texto")
+        );
+    }
     
 }
