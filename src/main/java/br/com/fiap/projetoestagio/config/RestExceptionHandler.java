@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import br.com.fiap.projetoestagio.models.RestValidationError;
 
+// import br.com.fiap.projetoestagio.models.RestValidationError;
+
 
 @RestControllerAdvice
 public class RestExceptionHandler {

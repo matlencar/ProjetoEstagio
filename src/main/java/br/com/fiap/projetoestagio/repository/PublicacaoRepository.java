@@ -1,14 +1,19 @@
 package br.com.fiap.projetoestagio.repository;
 
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
+import java.util.List;
+
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import br.com.fiap.projetoestagio.models.Publicacao;
 
-public interface PublicacaoRepository extends JpaRepository<Publicacao, Long>{
+public interface PublicacaoRepository extends JpaRepository<Publicacao, Integer>{
 
-    Page<Publicacao> findByPublicacaoContaining(String publicacao, org.springframework.data.domain.Pageable pageable);
 
-    Page<Publicacao> findAll(Pageable pageable);
+    Page<Publicacao> findByPublicacaoContaining(String publicacao, Pageable pageable);
+
+    List<Publicacao> findByPublicacaoId(int id);
+
+    // Page<Publicacao> findByPublicacaoContaining(String publicacao, org.springframework.data.domain.Pageable pageable);
     
 }

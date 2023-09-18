@@ -20,13 +20,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.fiap.projetoestagio.config.RestNotFoundException;
+import br.com.fiap.projetoestagio.exception.RestNotFoundException;
 import br.com.fiap.projetoestagio.models.Publicacao;
 import br.com.fiap.projetoestagio.repository.PublicacaoRepository;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/publicacao")
+// @RequestMapping("/api/publicacao")
 public class PublicacaoController {
 
     Logger log = LoggerFactory.getLogger(PublicacaoController.class);
@@ -38,8 +38,8 @@ public class PublicacaoController {
     @Autowired
     PagedResourcesAssembler<Object> assembler;
 
-    @GetMapping
-    public PagedModel<EntityModel<Object>> index(@RequestParam(required = false) String publicacao, @PageableDefault(size = 3) Pageable pageable) {
+    @GetMapping("/api/publicacao")
+    public PagedModel<EntityModel<Object>> index(@RequestParam(required = false) String publicacao, @PageableDefault(size = 2) Pageable pageable) {
         Page<Publicacao> publicacoes = (publicacao == null)?
         repository.findAll(pageable):
         repository.findByPublicacaoContaining(publicacao, pageable);
@@ -56,14 +56,14 @@ public class PublicacaoController {
         return ResponseEntity.created(publicacao.toEntityModel().getRequiredLink("self").toUri()).body(publicacao.toEntityModel());
     }
 
-    @GetMapping("{id}")
-    public EntityModel<Publicacao> show(@PathVariable Long id){
+    @GetMapping("/api/publicacao/{id}")
+    public EntityModel<Publicacao> show(@PathVariable int id){
         log.info("buscando publicacoes com id: " + id);
         return getPublicacao(id).toEntityModel();
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<Publicacao> destroy(@PathVariable Long id){
+    @DeleteMapping("/api/publicacao/{id}")
+    public ResponseEntity<Publicacao> destroy(@PathVariable int id){
         log.info("buscando publicacoes com id: " + id);
         var publicacao = getPublicacao(id);
 
@@ -72,8 +72,8 @@ public class PublicacaoController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("{id}")
-    public EntityModel<Publicacao> update(@PathVariable Long id, @RequestBody @Valid Publicacao publicacao){
+    @PutMapping("/api/publicacao/{id}")
+    public EntityModel<Publicacao> update(@PathVariable int id, @RequestBody @Valid Publicacao publicacao){
         log.info("buscando publicacoes com id: " + id);
         getPublicacao(id);
     
@@ -83,7 +83,7 @@ public class PublicacaoController {
         return publicacao.toEntityModel();
     }
 
-    private Publicacao getPublicacao(Long id) {
+    private Publicacao getPublicacao(int id) {
         return repository.findById(id)
         .orElseThrow(() -> new RestNotFoundException("Nenhuma publicacao encontrada no sistema"));
     }
