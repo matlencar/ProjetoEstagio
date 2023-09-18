@@ -35,13 +35,13 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @Entity
-public class Publicacao extends EntityModel<Publicacao> {
+public class Publicacao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Size(max = 200, message = "O texto deve ter no maximo 200 letras")
+    @Size(max = 200)
     @NotBlank
     private String texto;
 
@@ -55,7 +55,7 @@ public class Publicacao extends EntityModel<Publicacao> {
                 linkTo(methodOn(PublicacaoController.class).show(id)).withSelfRel(),
                 linkTo(methodOn(PublicacaoController.class).destroy(id)).withRel("delete"),
                 linkTo(methodOn(PublicacaoController.class).index(null, Pageable.unpaged())).withRel("all"),
-                linkTo(methodOn(InfoPublicacaoController.class).show(this.getInfoPublicacao().getId())).withRel("info publicacao"));
+                linkTo(methodOn(PublicacaoController.class).show(this.getId())).withRel("publicacao"));
     }
 
     @ManyToOne

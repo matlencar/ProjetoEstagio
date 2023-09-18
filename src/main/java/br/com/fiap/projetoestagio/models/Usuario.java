@@ -31,9 +31,9 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotBlank
-    @Size(max = 60, message = "O nome deve conter até 60 caracteres")
-    private String nome;
+    // @NotBlank
+    // @Size(max = 60, message = "O nome deve conter até 60 caracteres")
+    // private String nome;
 
     @NotBlank
     @Size(max = 80)
@@ -43,24 +43,24 @@ public class Usuario {
     @Size(max = 80)
     private String senha;
 
-    @NotNull
-    @Size(min = 1, max = 100, message = "")
-    private int idade;
+    // @NotNull
+    // @Size(max = 100)
+    // private int idade;
 
-    @NotBlank
-    @Size(min = 1, max = 600, message = "O usuario pode fazer uma descrição que tenha até 600 caracteres")
-    private String descricao;
+    // @NotBlank
+    // @Size(min = 1, max = 600, message = "O usuario pode fazer uma descrição que tenha até 600 caracteres")
+    // private String descricao;
 
-    @NotBlank
-    @Min(value = 20, message = "deve digitar se pertence ao genero Masculino ou Feminino")
-    private String genero;
+    // @NotBlank
+    // @Min(value = 20, message = "deve digitar se pertence ao genero Masculino ou Feminino")
+    // private String genero;
 
-    @NotBlank
-    @Max(value = 50, message = "Deve conter todos os 11 digitos do CPF")
-    private String cpf;
+    // @NotBlank
+    // @Max(value = 50, message = "Deve conter todos os 11 digitos do CPF")
+    // private String cpf;
 
-    @NotBlank
-    @Max(value = 50, message = "Deve conter todos os 9 digitos do RG")
-    private String rg;
+    // @NotBlank
+    // @Max(value = 50, message = "Deve conter todos os 9 digitos do RG")
+    // private String rg;
 
 }

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+// import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,10 +39,10 @@ public class PublicacaoController {
     PagedResourcesAssembler<Object> assembler;
 
     @GetMapping("/api/publicacao")
-    public PagedModel<EntityModel<Object>> index(@RequestParam(required = false) String publicacao, @PageableDefault(size = 2) Pageable pageable) {
-        Page<Publicacao> publicacoes = (publicacao == null)?
+    public PagedModel<EntityModel<Object>> index(@RequestParam(required = false) String texto, @PageableDefault(size = 2) Pageable pageable) {
+        Page<Publicacao> publicacoes = (texto == null)?
         repository.findAll(pageable):
-        repository.findByPublicacaoContaining(publicacao, pageable);
+        repository.findByTextoContaining(texto, pageable);
     
         return assembler.toModel(publicacoes.map(Publicacao::toEntityModel));
     }
