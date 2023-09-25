@@ -42,9 +42,9 @@ public class DatabaseSeeder implements CommandLineRunner {
                                 "77455523298");
                 cadastroRepository.saveAll(List.of(cadastro1, cadastro2, cadastro3));
 
-                Usuario user1 = new Usuario(1, "matlencar", "mat123@");
-                Usuario user2 = new Usuario(2, "pedrosanag", "ped123@");
-                Usuario user3 = new Usuario(3, "marieli", "mari123@");
+                Usuario user1 = new Usuario(1, "Matheus", "matlencar", "mat123@");
+                Usuario user2 = new Usuario(2, "Pedro", "pedrosanag", "ped123@");
+                Usuario user3 = new Usuario(3, "Maria", "marieli", "mari123@");
                
                 usuarioRepository.saveAll(List.of(user1, user2, user3));
 

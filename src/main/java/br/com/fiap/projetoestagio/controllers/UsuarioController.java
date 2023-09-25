@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.fiap.projetoestagio.exception.RestNotFoundException;
+import br.com.fiap.projetoestagio.models.Credencial;
 import br.com.fiap.projetoestagio.models.Usuario;
 import br.com.fiap.projetoestagio.repository.UsuarioRepository;
 import jakarta.validation.Valid;
@@ -30,56 +33,77 @@ public class UsuarioController {
     Logger log = LoggerFactory.getLogger(UsuarioController.class);
 
     @Autowired
-    UsuarioRepository repository; //Injeção de dependencia
+    UsuarioRepository repository; // Injeção de dependencia
+
+    @Autowired
+    AuthenticationManager manager;
+
+    @Autowired
+    PasswordEncoder encoder;
 
     @GetMapping("/api/usuarios")
     public List<Usuario> index() {
         return repository.findAll();
     }
-    
 
-    @PostMapping("/api/usuarios")
-    public ResponseEntity<Usuario> create(@RequestBody @Valid Usuario usuario) {
-        log.info("usuario cadastrados" + usuarios);
-       
+    @PostMapping("/api/entrar")
+    public ResponseEntity<Usuario> registrar(@RequestBody @Valid Usuario usuario) {
+        usuario.setSenha(encoder.encode(usuario.getSenha()));
         repository.save(usuario);
-
         return ResponseEntity.status(HttpStatus.CREATED).body(usuario);
     }
-    
-    @GetMapping("/api/usuarios/{id}")
-    public ResponseEntity<Usuario> show(@PathVariable int id){
-        log.info("buscando publicacoes com id: " + id);
-        var usuario = getUsuario(id);
 
-        return ResponseEntity.ok(usuario);
+    @PostMapping("/api/login")
+    public ResponseEntity<Object> login(@RequestBody @Valid Credencial credencial) {
+        // usuario.setSenha(encoder.encode(usuario.getSenha()));
+        // repository.save(usuario);
+        manager.authenticate(credencial.tAuthentication());
+        return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/api/usuarios/{id}")
-    public ResponseEntity<Usuario> destroy(@PathVariable int id){
-        log.info("deletando usuarios com o id: " + id);
-        var usuario = getUsuario(id);
+    // @PostMapping("/api/usuarios")
+    // public ResponseEntity<Usuario> create(@RequestBody @Valid Usuario usuario) {
+    // log.info("usuario cadastrados" + usuarios);
 
+    // repository.save(usuario);
 
-        usuarios.remove(usuario);
+    // return ResponseEntity.status(HttpStatus.CREATED).body(usuario);
+    // }
 
-        return ResponseEntity.noContent().build();
-    }
+    // @GetMapping("/api/usuarios/{id}")
+    // public ResponseEntity<Usuario> show(@PathVariable int id){
+    // log.info("buscando publicacoes com id: " + id);
+    // var usuario = getUsuario(id);
 
-    @PutMapping("/api/usuarios/{id}")
-    public ResponseEntity<Usuario> update(@PathVariable int id, @RequestBody @Valid Usuario usuario){
-        log.info("atualizando o id do login: " + id);
-       getUsuario(id);
+    // return ResponseEntity.ok(usuario);
+    // }
 
-        usuario.setId(id);
-        repository.save(usuario);
+    // @DeleteMapping("/api/usuarios/{id}")
+    // public ResponseEntity<Usuario> destroy(@PathVariable int id){
+    // log.info("deletando usuarios com o id: " + id);
+    // var usuario = getUsuario(id);
 
-        return ResponseEntity.ok(usuario);
-    }
+    // usuarios.remove(usuario);
 
-    private Usuario getUsuario(int id) {
-        return repository.findById(id)
-        .orElseThrow(() -> new RestNotFoundException("Nenhum usuario encontrada no sistema"));
-    }
+    // return ResponseEntity.noContent().build();
+    // }
+
+    // @PutMapping("/api/usuarios/{id}")
+    // public ResponseEntity<Usuario> update(@PathVariable int id, @RequestBody
+    // @Valid Usuario usuario){
+    // log.info("atualizando o id do login: " + id);
+    // getUsuario(id);
+
+    // usuario.setId(id);
+    // repository.save(usuario);
+
+    // return ResponseEntity.ok(usuario);
+    // }
+
+    // private Usuario getUsuario(int id) {
+    // return repository.findById(id)
+    // .orElseThrow(() -> new RestNotFoundException("Nenhum usuario encontrada no
+    // sistema"));
+    // }
 
 }

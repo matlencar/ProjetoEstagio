@@ -1,13 +1,17 @@
 package br.com.fiap.projetoestagio.models;
 
+import java.util.Collection;
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -25,15 +29,13 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @Entity
-public class Usuario {
+public class Usuario implements UserDetails{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    // @NotBlank
-    // @Size(max = 60, message = "O nome deve conter até 60 caracteres")
-    // private String nome;
+    private String nome;
 
     @NotBlank
     @Size(max = 80)
@@ -43,24 +45,41 @@ public class Usuario {
     @Size(max = 80)
     private String senha;
 
-    // @NotNull
-    // @Size(max = 100)
-    // private int idade;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
 
-    // @NotBlank
-    // @Size(min = 1, max = 600, message = "O usuario pode fazer uma descrição que tenha até 600 caracteres")
-    // private String descricao;
+       return List.of(new SimpleGrantedAuthority("ROLE_USUARIO"));
+    }
 
-    // @NotBlank
-    // @Min(value = 20, message = "deve digitar se pertence ao genero Masculino ou Feminino")
-    // private String genero;
+    @Override
+    public String getPassword() {
+       return senha;
+    }
 
-    // @NotBlank
-    // @Max(value = 50, message = "Deve conter todos os 11 digitos do CPF")
-    // private String cpf;
+    @Override
+    public String getUsername() {
+       return usuario;
+    }
 
-    // @NotBlank
-    // @Max(value = 50, message = "Deve conter todos os 9 digitos do RG")
-    // private String rg;
+    @Override
+    public boolean isAccountNonExpired() {
+       return true;
+    }
 
+    @Override
+    public boolean isAccountNonLocked() {
+       return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+       return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+       return true;
+    }
+
+    
 }
