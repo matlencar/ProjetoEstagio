@@ -23,6 +23,7 @@ import br.com.fiap.projetoestagio.exception.RestNotFoundException;
 import br.com.fiap.projetoestagio.models.Credencial;
 import br.com.fiap.projetoestagio.models.Usuario;
 import br.com.fiap.projetoestagio.repository.UsuarioRepository;
+import br.com.fiap.projetoestagio.service.TokenService;
 import jakarta.validation.Valid;
 
 @RestController
@@ -41,9 +42,22 @@ public class UsuarioController {
     @Autowired
     PasswordEncoder encoder;
 
+    @Autowired
+    TokenService tokenService;
+
     @GetMapping("/api/usuarios")
     public List<Usuario> index() {
         return repository.findAll();
+    }
+
+    @PostMapping("/api/login")
+    public ResponseEntity<Object> login(@RequestBody @Valid Credencial credencial) {
+        // usuario.setSenha(encoder.encode(usuario.getSenha()));
+        // repository.save(usuario);
+        manager.authenticate(credencial.toAuthentication());
+
+        var token = tokenService.generateToken(credencial);
+        return ResponseEntity.ok(token);
     }
 
     @PostMapping("/api/entrar")
@@ -51,14 +65,6 @@ public class UsuarioController {
         usuario.setSenha(encoder.encode(usuario.getSenha()));
         repository.save(usuario);
         return ResponseEntity.status(HttpStatus.CREATED).body(usuario);
-    }
-
-    @PostMapping("/api/login")
-    public ResponseEntity<Object> login(@RequestBody @Valid Credencial credencial) {
-        // usuario.setSenha(encoder.encode(usuario.getSenha()));
-        // repository.save(usuario);
-        manager.authenticate(credencial.tAuthentication());
-        return ResponseEntity.ok().build();
     }
 
     // @PostMapping("/api/usuarios")

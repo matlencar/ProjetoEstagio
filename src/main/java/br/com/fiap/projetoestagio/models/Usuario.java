@@ -22,8 +22,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
-@Setter
-@Getter
+// @Setter
+// @Getter
 @Data
 @NoArgsConstructor
 @Builder
@@ -37,12 +37,12 @@ public class Usuario implements UserDetails{
 
     private String nome;
 
-    @NotBlank
-    @Size(max = 80)
-    private String usuario;
+   //  @NotBlank
+   //  @Size(max = 80)
+    private String email;
 
-    @NotBlank
-    @Size(max = 80)
+   //  @NotBlank
+   //  @Size(max = 80)
     private String senha;
 
     @Override
@@ -53,12 +53,12 @@ public class Usuario implements UserDetails{
 
     @Override
     public String getPassword() {
-       return senha;
+       return this.senha;
     }
 
     @Override
     public String getUsername() {
-       return usuario;
+       return this.email;
     }
 
     @Override

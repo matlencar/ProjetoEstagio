@@ -30,7 +30,7 @@ public class TokenService {
 
         Algorithm alg = Algorithm.HMAC256(secret);
         String token = JWT.create()
-        .withSubject(credencial.usuario())
+        .withSubject(credencial.email())
         .withIssuer("pi")
         .withExpiresAt(Instant.now().plus(1, ChronoUnit.HOURS))
         .sign(alg);
@@ -38,15 +38,15 @@ public class TokenService {
         return new Token(token, "JWT", "Bearer ");
     }
 
-    public Usuario getValidateUseUsuario (String token) {
+    public Usuario getValidateUsuario (String token) {
         Algorithm alg = Algorithm.HMAC256(secret);
-        var username = JWT.require(alg)
+        var usuario = JWT.require(alg)
         .withIssuer("pi")
         .build()
         .verify(token)
         .getSubject();
 
-       return repository.findByUsername(username)
+       return repository.findByEmail(token)
        .orElseThrow(() -> new JWTVerificationException("Ola, o usuario é invalido"));
     }
     

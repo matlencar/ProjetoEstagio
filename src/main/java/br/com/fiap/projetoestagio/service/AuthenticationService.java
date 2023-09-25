@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import br.com.fiap.projetoestagio.models.Usuario;
 import br.com.fiap.projetoestagio.repository.UsuarioRepository;
 
 @Service
@@ -16,7 +17,10 @@ public class AuthenticationService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return repository.findByUsername(username)
-        .orElseThrow(() -> new UsernameNotFoundException("usuario não encontrado"));
+
+       Usuario usuario = repository.findByEmail(username)
+       .orElseThrow(() -> new UsernameNotFoundException(" Usuario não encontrado" + username));
+
+       return usuario;
     }
 }
