@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,8 +20,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.fiap.projetoestagio.exception.RestNotFoundException;
+import br.com.fiap.projetoestagio.models.Credencial;
 import br.com.fiap.projetoestagio.models.Usuario;
 import br.com.fiap.projetoestagio.repository.UsuarioRepository;
+import br.com.fiap.projetoestagio.service.TokenService;
 import jakarta.validation.Valid;
 
 @RestController
@@ -31,6 +35,28 @@ public class UsuarioController {
 
     @Autowired
     UsuarioRepository repository; //Injeção de dependencia
+
+     @Autowired
+    AuthenticationManager manager;
+
+    @Autowired
+    PasswordEncoder encoder;
+
+    @Autowired
+    TokenService tokenService;
+
+    // start here
+
+    @PostMapping("/api/usuarios/login")
+    public ResponseEntity<Object> login(@RequestBody @Valid Credencial credencial){
+        manager.authenticate(credencial.toAuthentication());
+
+        var token = tokenService.generateToken(credencial);
+        return ResponseEntity.ok(token);
+    }
+
+
+    // finished here
 
     @GetMapping("/api/usuarios")
     public List<Usuario> index() {
