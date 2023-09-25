@@ -1,5 +1,7 @@
 package br.com.fiap.projetoestagio.controllers;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +24,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.fiap.projetoestagio.exception.RestNotFoundException;
 import br.com.fiap.projetoestagio.models.Publicacao;
+import br.com.fiap.projetoestagio.models.PublicacaoDto;
 import br.com.fiap.projetoestagio.repository.PublicacaoRepository;
+import br.com.fiap.projetoestagio.service.PublicacaoService;
 import jakarta.validation.Valid;
 
 @RestController
@@ -36,7 +40,15 @@ public class PublicacaoController {
     PublicacaoRepository repository; //Injeção de dependencia
 
     @Autowired
+    PublicacaoService publicacaoService; //Injeção de dependencia da service
+
+    @Autowired
     PagedResourcesAssembler<Object> assembler;
+
+    public List<PublicacaoDto> index() {
+        log.info("Consultado dados da publicacao");
+        return publicacaoService.findAll();
+    }
 
     @GetMapping("/api/publicacao")
     public PagedModel<EntityModel<Object>> index(@RequestParam(required = false) String texto, @PageableDefault(size = 2) Pageable pageable) {

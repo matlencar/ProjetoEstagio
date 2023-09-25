@@ -3,6 +3,7 @@ package br.com.fiap.projetoestagio.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,19 +19,31 @@ public class SecurityConfig {
     @Autowired
     AuthorizationFilter authorizationFilter;
 
+    @Autowired
+    Environment env;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
+         http
                 .authorizeHttpRequests()
                 .requestMatchers(HttpMethod.POST, "/api/usuarios/login").permitAll()
-                .anyRequest().authenticated()
+                // .anyRequest().authenticated()
                 .and()
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .formLogin().disable()
-                .addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class)
-                .build();
+                // .addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class)
+                // .build();
+                .addFilterBefore(authorizationFilter,  UsernamePasswordAuthenticationFilter.class);
+
+                if (env.getActiveProfiles().length > 0 && env.getActiveProfiles()[0].equals("open")){
+                    http.authorizeHttpRequests().anyRequest().permitAll();
+                } else {
+                    http.authorizeHttpRequests().anyRequest().authenticated();
+                }
+
+                return http.build();
     }
 
     @Bean

@@ -15,6 +15,8 @@ public interface PublicacaoRepository extends JpaRepository<Publicacao, Integer>
 
     Page<Publicacao> findByTextoContaining(String texto, Pageable pageable);
 
+    List<Publicacao> findByPublicacaoId(int id);
+
     // List<Publicacao> findById(int id);
 
     // Page<Publicacao> findByPublicacaoContaining(String publicacao, org.springframework.data.domain.Pageable pageable);
